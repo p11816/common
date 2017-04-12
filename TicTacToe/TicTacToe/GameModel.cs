@@ -67,7 +67,7 @@ namespace TicTacToe
             CountStep++;
             Field[i, j] = side;
 
-           // CheckForGameOver();
+            CheckForGameOver();
             CurrentMove = side == State.o ? State.x : State.o;
             UpdateView(this);
         }
