@@ -82,6 +82,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(589, 441);
+            this.Name = "GameField";
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
@@ -89,6 +91,9 @@
             this.Text = "Form1";
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
+            this.ResumeLayout(false);
+
+            this.Resize += new System.EventHandler(this.GameField_Resize);
             this.ResumeLayout(false);
 
         }
