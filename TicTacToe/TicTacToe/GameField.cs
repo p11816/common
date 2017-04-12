@@ -40,8 +40,7 @@ namespace TicTacToe
                     field[i, j] = b;
                 }
             }
-
-
+            this.Width = 200;
             model.UpdateView += UpdateView;
         }
 

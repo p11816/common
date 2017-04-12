@@ -80,7 +80,8 @@ namespace TicTacToe
                 GameOver = true;
                 Winner = State.none;
             }
-            for(int i =0 ; i<3; i++) {
+            for(int i =0 ; i<3; i++) 
+            {
                 if(
                     ((Field[0, i] == Field[1, i]) && (Field[0, i] == Field[2, i]))
                     ||
