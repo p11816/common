@@ -69,6 +69,10 @@ namespace TicTacToe
                     field[i, j].Text = symbols[model.Field[i, j]];
                 }
             }
+            if (model.GameOver)
+            {
+                MessageBox.Show("Game Over, winner is " + symbols[model.Winner]);
+            }
         }
 
         public void MakeMove(int i, int j, GameModel.State side)
