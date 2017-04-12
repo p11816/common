@@ -15,11 +15,21 @@ namespace TicTacToe
             none
         }
 
+        // Массив со значениями
         public State[,] Field { get; private set; }
+
+        // Сетчик ходов
         public int CountStep { get; private set; }
+
+        // Значение победителя
         public State Winner { get; private set; }
+
+        // Флаг конца игры
         public bool GameOver { get; private set; }
+
+        // Значение текущего хода
         public State CurrentMove { get; private set; }
+
 
         public GameModel()
         {
@@ -75,27 +85,24 @@ namespace TicTacToe
         private void CheckForGameOver()
         {
             if (CountStep < 5) return;
+            
             if (CountStep == 9)
             {
                 GameOver = true;
                 Winner = State.none;
             }
+
             for(int i =0 ; i<3; i++) {
-                if(
-                    ((Field[0, i] == Field[1, i]) && (Field[0, i] == Field[2, i]))
-                    ||
-                    ((Field[i,0] == Field[ i,1]) && (Field[ i,0] == Field[i,2]))
-                    )
+                if (Field[0, i] == Field[1, i] && Field[0, i] == Field[2, i] 
+                    || Field[i,0] == Field[ i,1] && Field[ i,0] == Field[i,2]
+                    || Field[0,0] == Field[1, 1] && Field[1, 1] == Field[2, 2]
+                    || Field[2, 0] == Field[1, 1] && Field[1, 1] == Field[0, 2])
                 {
                     Winner = CurrentMove;
                     GameOver = true;
                 }
-
             }
         }
-
-        
-        
     }
 
     
