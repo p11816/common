@@ -15,7 +15,7 @@ namespace TicTacToe
         private GameModel model = new GameModel();
         private Button[,] field;
         List<Bitmap> images;
-        
+
         public GameField()
         {
             InitializeComponent();
@@ -91,6 +91,30 @@ namespace TicTacToe
         public void MakeMove(int i, int j, GameModel.State side)
         {
             model.MakeMove(i, j, side);
+        }
+
+        private void GameField_Resize(object sender, EventArgs e)
+        {
+            Control control = (Control)sender;
+            if (control.ClientSize.Height != control.ClientSize.Width)
+            {
+                control.ClientSize = new Size(control.ClientSize.Width, control.ClientSize.Width);
+            }
+            int width = control.ClientSize.Width;
+            int heiht = control.ClientSize.Height;
+            int intend = 8 + width / 40;
+
+            for (int i = 0; i < field.GetLength(0); i++) 
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    // логические координаты кнопки
+                    field[i, j].Left = i * (width - intend * 4) / 3 + (i + 1) * intend;
+                    field[i, j].Top = j * (heiht - intend * 4) / 3 + (j + 1) * intend;
+                    field[i, j].Size = new Size((width - intend * 4) / 3, (heiht - intend * 4) / 3);
+                    field[i, j].Tag = new Point(i, j);
+                }
+            }
         }
     }
 }
