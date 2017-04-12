@@ -46,7 +46,7 @@ namespace TicTacToe
             images = new List<Bitmap>();
             images.Add(new Bitmap("..\\..\\X.gif"));
             images.Add(new Bitmap("..\\..\\O.gif"));
-
+            this.Width = 200;
             model.UpdateView += UpdateView;
         }
 
