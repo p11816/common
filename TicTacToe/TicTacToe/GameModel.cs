@@ -88,8 +88,7 @@ namespace TicTacToe
             
             if (CountStep == 9)
             {
-                GameOver = true;
-                Winner = State.none;
+                return;
             }
 
             for(int i =0 ; i<3; i++) {
@@ -101,7 +100,9 @@ namespace TicTacToe
                     Winner = CurrentMove;
                     GameOver = true;
                 }
+
             }
+            
         }
     }
 
