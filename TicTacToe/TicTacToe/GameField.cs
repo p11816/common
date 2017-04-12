@@ -12,30 +12,23 @@ namespace TicTacToe
 {
     public partial class GameField : Form, IControler, IView
     {
-        // Рабочая модель
         private GameModel model = new GameModel();
-
-        // Массив кнопок
         private Button[,] field;
-
-        // Коллекция для хранения знаений
         Dictionary<GameModel.State, string> symbols = new Dictionary<GameModel.State, string>();
 
         public GameField()
         {
             InitializeComponent();
-            symbols[GameModel.State.x] = "X";
-            symbols[GameModel.State.o] = "O";
+            symbols[GameModel.State.x] = "x";
+            symbols[GameModel.State.o] = "o";
             symbols[GameModel.State.none] = "";
-
             field = new Button[3, 3];
-
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
                     Button b = new Button();
-                    // Логические координаты кнопки
+                    // логические координаты кнопки
                     b.Left = i * 50 + 10;
                     b.Top = j * 50 + 10;
                     b.Size = new Size(40, 40);
@@ -47,6 +40,8 @@ namespace TicTacToe
                     field[i, j] = b;
                 }
             }
+
+
             model.UpdateView += UpdateView;
         }
 
@@ -94,11 +89,6 @@ namespace TicTacToe
         public void MakeMove(int i, int j, GameModel.State side)
         {
             model.MakeMove(i, j, side);
-        }
-
-        private void GameField_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
