@@ -12,6 +12,7 @@ namespace TicTacToe
 {
     public partial class GameField : Form, IControler, IView
     {
+        private GameModel newmodel = null;
         private GameModel model = new GameModel();
         private Button[,] field;
         Dictionary<GameModel.State, string> symbols = new Dictionary<GameModel.State, string>();
@@ -40,8 +41,6 @@ namespace TicTacToe
                     field[i, j] = b;
                 }
             }
-
-
             model.UpdateView += UpdateView;
         }
 
@@ -59,7 +58,6 @@ namespace TicTacToe
             }
         }
 
-
         public void UpdateView(GameModel model)
         {
             for (int i = 0; i < field.GetLength(0); i++)
@@ -71,13 +69,29 @@ namespace TicTacToe
             }
             if (model.GameOver)
             {
-                MessageBox.Show("Game Over, winner is " + symbols[model.Winner]);
+                MessageBox.Show("Game Over, winner is " + symbols[model.Winner] + "\n" +
+                    "Count of X's winners: " + GameModel.countXWin + "\n" +
+                    "Count of O's winners: " + GameModel.countOWin + "\n" +
+                    "Count of draws: " + GameModel.draw);
+
+                DialogResult result = MessageBox.Show("Would you like to play again?", "Message", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if(result == DialogResult.Yes)
+                {
+                    newmodel = new GameModel();
+                    newmodel.UpdateView += UpdateView;
+                }
             }
         }
-
         public void MakeMove(int i, int j, GameModel.State side)
         {
             model.MakeMove(i, j, side);
+            if (newmodel != null)
+            {
+                model = newmodel;
+                UpdateView(model);
+                newmodel = null;
+            }
         }
     }
 }
