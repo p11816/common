@@ -12,13 +12,18 @@ namespace TicTacToe
 {
     public partial class GameField : Form, IControler, IView
     {
+        private GameModel newmodel = null;
         private GameModel model = new GameModel();
         private Button[,] field;
         List<Bitmap> images;
-        
+        Dictionary<GameModel.State, string> symbols = new Dictionary<GameModel.State, string>();
+
         public GameField()
         {
             InitializeComponent();
+            symbols[GameModel.State.x] = "x";
+            symbols[GameModel.State.o] = "o";
+            symbols[GameModel.State.none] = "";
             field = new Button[3, 3];
             for (int i = 0; i < field.GetLength(0); i++)
             {
@@ -59,7 +64,6 @@ namespace TicTacToe
             }
         }
 
-
         public void UpdateView(GameModel model)
         {
             for (int i = 0; i < field.GetLength(0); i++)
@@ -73,24 +77,53 @@ namespace TicTacToe
             }
             if (model.GameOver)
             {
-                string strWiner;
-                // проверка победителя возможно 3 варианта
-                if (model.Winner == GameModel.State.none)
-                {
-                    strWiner = "no winner, dead heat";
-                }
-                else
-                {
-                    strWiner = (model.Winner == GameModel.State.x ? " winner is player X" : "  winner is player O");
-                }
+                MessageBox.Show("Game Over, winner is " + symbols[model.Winner] + "\n" +
+                    "Count of X's winners: " + GameModel.countXWin + "\n" +
+                    "Count of O's winners: " + GameModel.countOWin + "\n" +
+                    "Count of draws: " + GameModel.draw);
 
-                MessageBox.Show("Game Over, " + strWiner);
+                DialogResult result = MessageBox.Show("Would you like to play again?", "Message", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if(result == DialogResult.Yes)
+                {
+                    newmodel = new GameModel();
+                    newmodel.UpdateView += UpdateView;
             }
         }
-
+        }
         public void MakeMove(int i, int j, GameModel.State side)
         {
             model.MakeMove(i, j, side);
+            if (newmodel != null)
+            {
+                model = newmodel;
+                UpdateView(model);
+                newmodel = null;
+            }
+        }
+
+        private void GameField_Resize(object sender, EventArgs e)
+        {
+            Control control = (Control)sender;
+            if (control.ClientSize.Height != control.ClientSize.Width)
+            {
+                control.ClientSize = new Size(control.ClientSize.Width, control.ClientSize.Width);
+            }
+            int width = control.ClientSize.Width;
+            int heiht = control.ClientSize.Height;
+            int intend = 8 + width / 40;
+
+            for (int i = 0; i < field.GetLength(0); i++) 
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    // логические координаты кнопки
+                    field[i, j].Left = i * (width - intend * 4) / 3 + (i + 1) * intend;
+                    field[i, j].Top = j * (heiht - intend * 4) / 3 + (j + 1) * intend;
+                    field[i, j].Size = new Size((width - intend * 4) / 3, (heiht - intend * 4) / 3);
+                    field[i, j].Tag = new Point(i, j);
+                }
+            }
         }
     }
 }
