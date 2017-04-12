@@ -8,18 +8,16 @@ namespace TicTacToe
 {
     public class GameModel
     {
-        public enum State
-        {
-            x,
-            o,
-            none
-        }
+        public enum State{ x, o, none }
 
         public State[,] Field { get; private set; }
         public int CountStep { get; private set; }
         public State Winner { get; private set; }
         public bool GameOver { get; private set; }
         public State CurrentMove { get; private set; }
+        static public Int32 countXWin = 0;
+        static public Int32 countOWin = 0;
+        static public Int32 draw = 0;
 
         public GameModel()
         {
@@ -34,9 +32,8 @@ namespace TicTacToe
             CountStep = 0;
             Winner = State.none;
             GameOver = false;
-            CurrentMove = State.x;            
+            CurrentMove = State.x;
         }
-
 
         public delegate void UpdateViewDelegate(GameModel model);
 
@@ -75,13 +72,28 @@ namespace TicTacToe
         private void CheckForGameOver()
         {
             if (CountStep < 5) return;
+            if (CountStep == 9)
+            {
+                GameOver = true;
+                Winner = State.none;
+                ++draw;
+            }
 
-            throw new NotImplementedException();
+            Boolean winner = false;
+            for(int i = 0; i < 3; i++) 
+            {
+                if(
+                    ((Field[0, i] == Field[1, i]) && (Field[0, i] == Field[2, i]))
+                    ||
+                    ((Field[i, 0] == Field[i, 1]) && (Field[i, 0] == Field[i, 2]))
+                    )
+                {
+                    Winner = CurrentMove;
+                    if (CurrentMove == State.x && winner == false) { ++countXWin; winner = true; }
+                    else if (CurrentMove == State.o && winner == false) { ++countOWin; winner = true;}
+                    GameOver = true;
+                }
+            }
         }
-
-        
-        
     }
-
-    
 }
