@@ -14,20 +14,18 @@ namespace TicTacToe
     {
         private GameModel model = new GameModel();
         private Button[,] field;
-        Dictionary<GameModel.State, string> symbols = new Dictionary<GameModel.State, string>();
-
+        List<Bitmap> images;
+        
         public GameField()
         {
             InitializeComponent();
-            symbols[GameModel.State.x] = "x";
-            symbols[GameModel.State.o] = "o";
-            symbols[GameModel.State.none] = "";
             field = new Button[3, 3];
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
                     Button b = new Button();
+                    b.BackgroundImageLayout = ImageLayout.Stretch;
                     // логические координаты кнопки
                     b.Left = i * 50 + 10;
                     b.Top = j * 50 + 10;
@@ -40,7 +38,9 @@ namespace TicTacToe
                     field[i, j] = b;
                 }
             }
-
+            images = new List<Bitmap>();
+            images.Add(new Bitmap("..\\..\\X.gif"));
+            images.Add(new Bitmap("..\\..\\O.gif"));
 
             model.UpdateView += UpdateView;
         }
@@ -66,7 +66,9 @@ namespace TicTacToe
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    field[i, j].Text = symbols[model.Field[i, j]];
+                    if(model.Field[i, j] == GameModel.State.x) field[i, j].BackgroundImage = images[0];
+                    else if (model.Field[i, j] == GameModel.State.o) field[i, j].BackgroundImage = images[1];
+
                 }
             }
             if (model.GameOver)

@@ -34,7 +34,7 @@ namespace TicTacToe
             CountStep = 0;
             Winner = State.none;
             GameOver = false;
-            CurrentMove = State.x;
+            CurrentMove = State.x;            
         }
 
 
