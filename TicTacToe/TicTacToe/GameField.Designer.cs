@@ -37,7 +37,7 @@
             this.ClientSize = new System.Drawing.Size(300, 300);
             this.Name = "GameField";
             this.Text = "Form1";
-            this.ResizeEnd += new System.EventHandler(this.GameField_ResizeEnd);
+            this.Resize += new System.EventHandler(this.GameField_ResizeEnd);
             this.ResumeLayout(false);
 
         }
