@@ -100,9 +100,7 @@ namespace TicTacToe
                     Winner = CurrentMove;
                     GameOver = true;
                 }
-
             }
-            
         }
     }
 
