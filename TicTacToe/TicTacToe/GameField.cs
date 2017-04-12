@@ -109,13 +109,14 @@ namespace TicTacToe
         private void GameField_Resize(object sender, EventArgs e)
         {
             Control control = (Control)sender;
-            if (control.ClientSize.Height != control.ClientSize.Width)
+            if (control.ClientSize.Height - 20 != control.ClientSize.Width)
             {
-                control.ClientSize = new Size(control.ClientSize.Width, control.ClientSize.Width);
+               //MessageBox.Show("control.ClientSize.Height = " + control.ClientSize.Height + "\ncontrol.ClientSize.Width = " + control.ClientSize.Width);
+                control.ClientSize = new Size(control.ClientSize.Width - 20, control.ClientSize.Width);
             }
 
             int width = control.ClientSize.Width;
-            int heiht = control.ClientSize.Height;
+            int heiht = control.ClientSize.Height - 20;
             int intend = 8 + width / 40;
 
             for (int i = 0; i < field.GetLength(0); i++)
@@ -124,7 +125,7 @@ namespace TicTacToe
                 {
                     // логические координаты кнопки
                     field[i, j].Left = i * (width - intend * 4) / 3 + (i + 1) * intend;
-                    field[i, j].Top = j * (heiht - intend * 4) / 3 + (j + 1) * intend;
+                    field[i, j].Top = 20 + j * (heiht - intend * 4) / 3 + (j + 1) * intend;
                     field[i, j].Size = new Size((width - intend * 4) / 3, (heiht - intend * 4) / 3);
                     field[i, j].Tag = new Point(i, j);
                 }
