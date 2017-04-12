@@ -71,7 +71,18 @@ namespace TicTacToe
             }
             if (model.GameOver)
             {
-                MessageBox.Show("Game Over, winner is " + symbols[model.Winner]);
+                string strWiner;
+                // проверка победителя возможно 3 варианта
+                if (model.Winner == GameModel.State.none)
+                {
+                    strWiner = "no winner, dead heat";
+                }
+                else
+                {
+                    strWiner = (model.Winner == GameModel.State.x ? " winner is player X" : "  winner is player O");
+                }
+
+                MessageBox.Show("Game Over, " + strWiner);
             }
         }
 

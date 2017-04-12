@@ -74,24 +74,44 @@ namespace TicTacToe
 
         private void CheckForGameOver()
         {
-            if (CountStep < 5) return;
-            if (CountStep == 9)
+            if (CountStep < 5)
             {
-                GameOver = true;
-                Winner = State.none;
+                return;
             }
-            for(int i =0 ; i<3; i++) {
-                if(
-                    ((Field[0, i] == Field[1, i]) && (Field[0, i] == Field[2, i]))
-                    ||
-                    ((Field[i,0] == Field[ i,1]) && (Field[ i,0] == Field[i,2]))
-                    )
+            else
+            {
+                // проверяем изначально диагонали
+                if (Field[0, 0] == Field[1, 1] && Field[0, 0] == Field[2, 2] && Field[1, 1] != State.none)
                 {
                     Winner = CurrentMove;
                     GameOver = true;
                 }
-
+                if (Field[0, 2] == Field[1, 1] && Field[1, 1] == Field[2, 0] && Field[1, 1] != State.none)
+                {
+                    Winner = CurrentMove;
+                    GameOver = true;
+                }
+                //проверяем столбцы и строки 
+                for (int i = 0; i < Field.GetLength(0); i++)
+                {
+                    //проверяем строку
+                    if (Field[i, 0] == Field[i, 1] && Field[i, 1] == Field[i, 2] && Field[i, 0] != State.none)
+                    {
+                        Winner = CurrentMove;
+                        GameOver = true;
+                    }
+                    if (Field[0, i] == Field[1, i] && Field[1, i] == Field[2, i] && Field[0, i] != State.none)
+                    {
+                        Winner = CurrentMove;
+                        GameOver = true;
+                    }
+                }
+                if (CountStep == 9)
+                {
+                    GameOver = true;
+                }
             }
+            
         }
 
         
