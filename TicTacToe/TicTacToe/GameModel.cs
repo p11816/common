@@ -76,27 +76,44 @@ namespace TicTacToe
         private void CheckForGameOver()
         {
             if (CountStep < 5) return;
+
             if (CountStep == 9)
             {
                 GameOver = true;
                 Winner = State.none;
                 ++draw;
+                return;
             }
 
-            Boolean winner = false;
-            for(int i = 0; i < 3; i++) 
+            if((Field[0,0] == Field[1,1] && Field[2,2] == Field[1,1])
+                || 
+                (Field[0,2]) == (Field[1,1]) && (Field[2,0] == Field[1,1]))
             {
-                if(
-                    ((Field[0, i] == Field[1, i]) && (Field[0, i] == Field[2, i]))
-                    ||
-                    ((Field[i, 0] == Field[i, 1]) && (Field[i, 0] == Field[i, 2]))
-                    )
+                Winner = CurrentMove;
+                GameOver = true;
+            }
+
+            else
+            {
+                for (int i = 0; i < 3; i++)
                 {
-                    Winner = CurrentMove;
-                    if (CurrentMove == State.x && winner == false) { ++countXWin; winner = true; }
-                    else if (CurrentMove == State.o && winner == false) { ++countOWin; winner = true;}
-                    GameOver = true;
+                    if (
+                        ((Field[0, i] == Field[1, i]) && (Field[1, i] == Field[2, i]) && Field[0,i] != State.none)
+                        ||
+                        ((Field[i, 0] == Field[i, 1]) && (Field[i, 1] == Field[i, 2]) && Field[i, 0] != State.none)
+                        )
+                    {
+                        Winner = CurrentMove;
+                        GameOver = true;
+                        break; 
+                    }
                 }
+            }
+
+            if(GameOver)
+            {
+                if (CurrentMove == State.x) ++countXWin;
+                else ++countOWin;
             }
         }
     }
