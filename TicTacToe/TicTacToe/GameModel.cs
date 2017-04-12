@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TicTacToe
 {
+ 
+    
     public class GameModel
     {
         public enum State
@@ -15,11 +19,13 @@ namespace TicTacToe
             none
         }
 
+        
         public State[,] Field { get; private set; }
-        public int CountStep { get; private set; }
-        public State Winner { get; private set; }
-        public bool GameOver { get; private set; }
-        public State CurrentMove { get; private set; }
+
+        public int CountStep { get; set; }
+        public State Winner { get; set; }
+        public bool GameOver { get; set; }
+        public State CurrentMove { get; set; }
 
         public GameModel()
         {
@@ -41,7 +47,6 @@ namespace TicTacToe
         public delegate void UpdateViewDelegate(GameModel model);
 
         public event UpdateViewDelegate UpdateView;
-
         public void MakeMove(int i, int j, State side)
         { 
             if(GameOver)

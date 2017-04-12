@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace TicTacToe
 {
@@ -22,6 +25,8 @@ namespace TicTacToe
             symbols[GameModel.State.x] = "x";
             symbols[GameModel.State.o] = "o";
             symbols[GameModel.State.none] = "";
+            SaveFileDialog.Filter = "xml files (*.xml)|*.xml";
+            OpenFileDialog.Filter = "All Files (*.*)|*.*| xml files (*.xml)|*.xml";
             field = new Button[3, 3];
             for (int i = 0; i < field.GetLength(0); i++)
             {
@@ -78,6 +83,91 @@ namespace TicTacToe
         public void MakeMove(int i, int j, GameModel.State side)
         {
             model.MakeMove(i, j, side);
+        }
+
+        private void LoadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog.FileName = "";
+
+            try
+            {
+                if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string fileName = OpenFileDialog.FileName;
+
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(fileName);
+
+                    var nodes = doc.SelectNodes("//Field");
+                    string[] fieldStr = nodes.Item(0).InnerText.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+                    model = new GameModel();
+
+                    for(int i = 0, k = 0; i < 3; ++i)
+                    {
+                        for(int j = 0; j < 3; ++j, ++k)
+                        {
+                            model.Field[i, j] = (GameModel.State)Enum.Parse(typeof(GameModel.State), fieldStr[k]);
+                        }
+                    }
+
+                    nodes = doc.SelectNodes("//CountStep");
+                    model.CountStep = Convert.ToInt32(nodes.Item(0).InnerText);
+                    nodes = doc.SelectNodes("//Winner");
+                    model.Winner = (GameModel.State)Enum.Parse(typeof(GameModel.State), nodes.Item(0).InnerText);
+                    nodes = doc.SelectNodes("//GameOver");
+                    model.GameOver = Convert.ToBoolean(nodes.Item(0).InnerText);
+                    nodes = doc.SelectNodes("//CurrentMove");
+                    model.CurrentMove = (GameModel.State)Enum.Parse(typeof(GameModel.State), nodes.Item(0).InnerText);
+                    model.UpdateView += UpdateView;
+                    UpdateView(model);
+                }
+            }
+
+            catch (Exception obj) { MessageBox.Show(obj.Message, ""); }
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog.FileName = "";
+
+            try
+            {
+                if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string fileName = SaveFileDialog.FileName;
+                    XmlTextWriter xml = new XmlTextWriter(fileName, Encoding.UTF8);
+
+                    xml.WriteStartDocument();
+                    xml.WriteStartElement("GameModel");
+                    xml.WriteEndElement();
+                    xml.Close();
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(fileName);
+                    XmlNode node = doc.CreateElement("Field");
+                    string arr = "";
+                    foreach (var elem in model.Field)
+                    {
+                        arr += (elem != GameModel.State.none ? symbols[elem] : "none") + " ";
+                    }
+                    doc.DocumentElement.AppendChild(node);
+                    node.InnerText = arr;
+                    node = doc.CreateElement("CountStep");
+                    node.InnerText = model.CountStep.ToString();
+                    doc.DocumentElement.AppendChild(node);
+                    node = doc.CreateElement("Winner");
+                    node.InnerText = (model.Winner != GameModel.State.none ? symbols[model.Winner] : "none");
+                    doc.DocumentElement.AppendChild(node);
+                    node = doc.CreateElement("GameOver");
+                    node.InnerText = model.GameOver ? "true" : "false";
+                    doc.DocumentElement.AppendChild(node);
+                    node = doc.CreateElement("CurrentMove");
+                    node.InnerText = symbols[model.CurrentMove];
+                    doc.DocumentElement.AppendChild(node);
+                    doc.Save(fileName);
+                }
+            }
+
+            catch (Exception obj) { MessageBox.Show(obj.Message, "Error"); }
         }
     }
 }
