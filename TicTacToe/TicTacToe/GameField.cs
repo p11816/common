@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,8 +15,10 @@ namespace TicTacToe
     {
         private GameModel newmodel = null;
         private GameModel model = new GameModel();
-        private Button[,] field;
+        private PictureBox[,] field;
         List<Bitmap> images;
+        bool[,] fieldMap;
+        Point curentPictur = new Point();
         Dictionary<GameModel.State, string> symbols = new Dictionary<GameModel.State, string>();
 
         public GameField()
@@ -24,14 +27,18 @@ namespace TicTacToe
             symbols[GameModel.State.x] = "x";
             symbols[GameModel.State.o] = "o";
             symbols[GameModel.State.none] = "";
-            field = new Button[3, 3];
+            field = new PictureBox[3, 3];
+            fieldMap = new bool[3, 3];
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    Button b = new Button();
-                    b.BackgroundImageLayout = ImageLayout.Stretch;
-                    // логические координаты кнопки
+                    PictureBox b = new PictureBox();
+                    fieldMap[i, j] = false;
+                    b.BorderStyle = BorderStyle.Fixed3D;
+                    b.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                    // логические координаты PictureBox
                     b.Left = i * 50 + 10;
                     b.Top = j * 50 + 10;
                     b.Size = new Size(40, 40);
@@ -46,13 +53,12 @@ namespace TicTacToe
             images = new List<Bitmap>();
             images.Add(new Bitmap("..\\..\\X.gif"));
             images.Add(new Bitmap("..\\..\\O.gif"));
-
             model.UpdateView += UpdateView;
         }
 
         void GameField_Click(object sender, EventArgs e)
         {
-            Button b = (Button)sender;
+            PictureBox b = (PictureBox)sender;
             Point p = (Point)b.Tag;
             try
             {
@@ -64,17 +70,40 @@ namespace TicTacToe
             }
         }
 
+        public void changeStaticPicture(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            field[curentPictur.X, curentPictur.Y].Enabled = false;
+        }
+
         public void UpdateView(GameModel model)
         {
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    if(model.Field[i, j] == GameModel.State.x) field[i, j].BackgroundImage = images[0];
-                    else if (model.Field[i, j] == GameModel.State.o) field[i, j].BackgroundImage = images[1];
+                    if (model.Field[i, j] == GameModel.State.x && !fieldMap[i,j])
+                    {
+                        field[i, j].Image = (Bitmap)images[0].Clone();
+                        timer1.Start();
+                        fieldMap[i, j] = true;
+                        curentPictur.X = i;
+                        curentPictur.Y = j;
+                    }
+                    else if (model.Field[i, j] == GameModel.State.o && !fieldMap[i,j])
+                    {
+                        field[i, j].Image = (Bitmap)images[1].Clone();
+                        timer1.Start();
+                        fieldMap[i, j] = true;
+                        timer1.Start();
+                        curentPictur.X = i;
+                        curentPictur.Y = j;
+                    }
 
                 }
             }
+            
+
             if (model.GameOver)
             {
                 MessageBox.Show("Game Over, winner is " + symbols[model.Winner] + "\n" +
@@ -88,7 +117,7 @@ namespace TicTacToe
                 {
                     newmodel = new GameModel();
                     newmodel.UpdateView += UpdateView;
-            }
+                }
         }
         }
         public void MakeMove(int i, int j, GameModel.State side)
@@ -122,6 +151,7 @@ namespace TicTacToe
                     field[i, j].Top = j * (heiht - intend * 4) / 3 + (j + 1) * intend;
                     field[i, j].Size = new Size((width - intend * 4) / 3, (heiht - intend * 4) / 3);
                     field[i, j].Tag = new Point(i, j);
+                                        
                 }
             }
         }
