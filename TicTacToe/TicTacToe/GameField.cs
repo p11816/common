@@ -89,7 +89,7 @@ namespace TicTacToe
                 }
             } 
         }
-
+        //
         public void UpdateView(GameModel model)
         {
             for (int i = 0; i < field.GetLength(0); i++)
