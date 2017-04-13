@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LoadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.играToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выборИгроковToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.игрокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компьютерToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuStrip.SuspendLayout();
-           
+            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
@@ -81,10 +81,6 @@
             this.SaveToolStripMenuItem.Text = "Сохранить как...";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
-            // OpenFileDialog
-            // 
-            this.OpenFileDialog.FileName = "OpenFileDialog";
-            // 
             // играToolStripMenuItem
             // 
             this.играToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -105,15 +101,24 @@
             // игрокToolStripMenuItem
             // 
             this.игрокToolStripMenuItem.Name = "игрокToolStripMenuItem";
-            this.игрокToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.игрокToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.игрокToolStripMenuItem.Text = "Игрок";
             // 
             // компьютерToolStripMenuItem
             // 
             this.компьютерToolStripMenuItem.Name = "компьютерToolStripMenuItem";
-            this.компьютерToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.компьютерToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.компьютерToolStripMenuItem.Text = "Компьютер";
             this.компьютерToolStripMenuItem.Click += new System.EventHandler(this.ComputerToolStripMenuItem_Click);
+            // 
+            // OpenFileDialog
+            // 
+            this.OpenFileDialog.FileName = "OpenFileDialog";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1300;
+            this.timer1.Tick += new System.EventHandler(this.changeStaticPicture);
             // 
             // GameField
             // 
@@ -146,7 +151,7 @@
         private System.Windows.Forms.ToolStripMenuItem игрокToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem компьютерToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
-
+       
     }
 }
 

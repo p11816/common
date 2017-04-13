@@ -33,7 +33,7 @@ namespace TicTacToe
             fieldMap = new bool[3, 3];
             SaveFileDialog.Filter = "xml files (*.xml)|*.xml";
             OpenFileDialog.Filter = "All Files (*.*)|*.*| xml files (*.xml)|*.xml";
-            field = new Button[3, 3];
+            //field = new Button[3, 3];
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 for (int j = 0; j < field.GetLength(1); j++)
@@ -81,7 +81,13 @@ namespace TicTacToe
         public void changeStaticPicture(object sender, EventArgs e)
         {
             timer1.Stop();
-            field[curentPictur.X, curentPictur.Y].Enabled = false;
+            for (int i = 0; i < 3; ++i )
+            {
+                for (int j = 0; j < 3; ++j)
+                {
+                    if (fieldMap[i, j]) field[i, j].Enabled = false;
+                }
+            } 
         }
 
         public void UpdateView(GameModel model)
@@ -95,22 +101,20 @@ namespace TicTacToe
                         field[i, j].Image = (Bitmap)images[0].Clone();
                         timer1.Start();
                         fieldMap[i, j] = true;
-                        curentPictur.X = i;
-                        curentPictur.Y = j;
+                       
                     }
                     else if (model.Field[i, j] == GameModel.State.o && !fieldMap[i,j])
                     {
                         field[i, j].Image = (Bitmap)images[1].Clone();
                         timer1.Start();
                         fieldMap[i, j] = true;
-                        timer1.Start();
-                        curentPictur.X = i;
-                        curentPictur.Y = j;
                     }
-
-                    if (model.Field[i, j] == GameModel.State.none) field[i, j].BackgroundImage = null;
-                    else if (model.Field[i, j] == GameModel.State.x) field[i, j].BackgroundImage = images[0];
-                    else if (model.Field[i, j] == GameModel.State.o) field[i, j].BackgroundImage = images[1];
+                    else if (model.Field[i, j] == GameModel.State.none)
+                    {
+                        field[i, j].Image = null;
+                        field[i, j].Enabled = true;
+                        fieldMap[i, j] = false;
+                    }
                 }
             }
         }
@@ -160,7 +164,6 @@ namespace TicTacToe
                     field[i, j].Top = 20 + j * (heiht - intend * 4) / 3 + (j + 1) * intend;
                     field[i, j].Size = new Size((width - intend * 4) / 3, (heiht - intend * 4) / 3);
                     field[i, j].Tag = new Point(i, j);
-                                        
                 }
             }
         }
