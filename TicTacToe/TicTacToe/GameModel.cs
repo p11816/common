@@ -8,11 +8,10 @@ using System.Xml.Serialization;
 
 namespace TicTacToe
 {
- 
-    
     public class GameModel
     {
         public enum State{ x, o, none }
+        public enum Player { User, Bot}
 
         
         public State[,] Field { get;  set; }
@@ -20,6 +19,15 @@ namespace TicTacToe
         public State Winner { get;  set; }
         public bool GameOver { get;  set; }
         public State CurrentMove { get;  set; }
+
+        // Текущий игрок
+        public Player CurrentPlayer { get; set; }
+
+        // Противник
+        public Player Opponent { get; set; }
+        
+        IBot SelectedBot;
+
         static public Int32 countXWin = 0;
         static public Int32 countOWin = 0;
         static public Int32 draw = 0;
@@ -38,13 +46,17 @@ namespace TicTacToe
             Winner = State.none;
             GameOver = false;
             CurrentMove = State.x;
+
+            SelectedBot = new EasyBot();
+            Opponent = Player.Bot;
+            CurrentPlayer = Player.User;
         }
 
         public delegate void UpdateViewDelegate(GameModel model);
-
         public event UpdateViewDelegate UpdateView;
+
         public void MakeMove(int i, int j, State side)
-        { 
+        {
             if(GameOver)
             {
                 throw new Exception("Game is already over!");
@@ -71,6 +83,20 @@ namespace TicTacToe
             CheckForGameOver();
             CurrentMove = side == State.o ? State.x : State.o;
             UpdateView(this);
+
+            // Если противником является компьютер:
+            if (Opponent == Player.Bot)
+            {
+                // Переключаят текущий ход
+                CurrentPlayer = (CurrentPlayer == Player.Bot) ? Player.User : Player.Bot;
+            }
+
+            // Если текущий ход у компьютера:
+            if (CurrentPlayer == Player.Bot && !GameOver)
+            {
+                // Вызывает бота
+                SelectedBot.BotMove(this);
+            }
         }
 
         private void CheckForGameOver()
@@ -85,9 +111,9 @@ namespace TicTacToe
                 return;
             }
 
-            if((Field[0,0] == Field[1,1] && Field[2,2] == Field[1,1])
+            if((Field[0,0] == Field[1,1] && Field[2,2] == Field[1,1] && Field[1, 1] != State.none)
                 || 
-                (Field[0,2]) == (Field[1,1]) && (Field[2,0] == Field[1,1]))
+                (Field[0,2]) == (Field[1,1]) && (Field[2,0] == Field[1,1]) && Field[1, 1] != State.none)
             {
                 Winner = CurrentMove;
                 GameOver = true;

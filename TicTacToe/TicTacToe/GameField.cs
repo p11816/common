@@ -230,5 +230,11 @@ namespace TicTacToe
 
             catch (Exception obj) { MessageBox.Show(obj.Message, ""); }
         }
+
+        // Выыбор компьютера в качестве противника
+        private void ComputerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
