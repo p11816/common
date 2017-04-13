@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EasyBot.cs" />
     <Compile Include="GameField.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,6 +53,7 @@
       <DependentUpon>GameField.cs</DependentUpon>
     </Compile>
     <Compile Include="GameModel.cs" />
+    <Compile Include="IBot.cs" />
     <Compile Include="IControler.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="Program.cs" />

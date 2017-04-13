@@ -34,6 +34,10 @@
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.играToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выборИгроковToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.игрокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.компьютерToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,7 +46,8 @@
             this.MenuStrip.AutoSize = false;
             this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem});
+            this.файлToolStripMenuItem,
+            this.играToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -78,11 +83,41 @@
             // 
             this.OpenFileDialog.FileName = "OpenFileDialog";
             // 
+            // играToolStripMenuItem
+            // 
+            this.играToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.выборИгроковToolStripMenuItem});
+            this.играToolStripMenuItem.Name = "играToolStripMenuItem";
+            this.играToolStripMenuItem.Size = new System.Drawing.Size(46, 16);
+            this.играToolStripMenuItem.Text = "Игра";
+            // 
+            // выборИгроковToolStripMenuItem
+            // 
+            this.выборИгроковToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.игрокToolStripMenuItem,
+            this.компьютерToolStripMenuItem});
+            this.выборИгроковToolStripMenuItem.Name = "выборИгроковToolStripMenuItem";
+            this.выборИгроковToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.выборИгроковToolStripMenuItem.Text = "Выбор противника";
+            // 
+            // игрокToolStripMenuItem
+            // 
+            this.игрокToolStripMenuItem.Name = "игрокToolStripMenuItem";
+            this.игрокToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.игрокToolStripMenuItem.Text = "Игрок";
+            // 
+            // компьютерToolStripMenuItem
+            // 
+            this.компьютерToolStripMenuItem.Name = "компьютерToolStripMenuItem";
+            this.компьютерToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.компьютерToolStripMenuItem.Text = "Компьютер";
+            this.компьютерToolStripMenuItem.Click += new System.EventHandler(this.ComputerToolStripMenuItem_Click);
+            // 
             // GameField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
             this.Name = "GameField";
@@ -104,6 +139,10 @@
         private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.SaveFileDialog SaveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem играToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem выборИгроковToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem игрокToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem компьютерToolStripMenuItem;
     }
 }
 
